@@ -7,6 +7,7 @@ import {
 } from "react";
 import { Book } from "../books/types";
 import { toast } from "sonner";
+import { SearchStrategies } from "./types/search-strategy";
 
 type BookSearchContextType = {
   searchInput: string;
@@ -31,7 +32,9 @@ export const BookSearchContextProvider = ({ children }: PropsWithChildren) => {
         return;
       }
 
-      await fetch(`/api/search-books?q=${searchInput}`).then(async (res) => {
+      await fetch(
+        `/api/search-books?q=${searchInput}&searchStrategy=${SearchStrategies.ILike}`,
+      ).then(async (res) => {
         const response = await res.json();
 
         // success

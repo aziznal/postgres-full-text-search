@@ -1,6 +1,11 @@
-import { fakeDelay, TYPICAL_DB_DELAY, TYPICAL_SERVER_DELAY } from "@/lib/fake-delay";
+import {
+  fakeDelay,
+  TYPICAL_DB_DELAY,
+  TYPICAL_SERVER_DELAY,
+} from "@/lib/fake-delay";
 import { searchBooks } from "@/modules/book-search/actions/search-books";
 import { searchQuerySchema } from "@/modules/book-search/schema";
+import { SearchStrategies } from "@/modules/book-search/types/search-strategy";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
 
@@ -20,6 +25,7 @@ export async function GET(request: NextRequest) {
 
   const results = await searchBooks({
     searchQuery: parsedParams.data.q,
+    searchStrategy: SearchStrategies.ILike,
   });
 
   return NextResponse.json({

@@ -1,22 +1,18 @@
 import { db } from "@/lib/drizzle/client";
 import { table_Books } from "@/modules/books/db-schema";
 import { Book } from "@/modules/books/types";
-import { eq, ilike, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
+import { SearchStrategies, SearchStrategy } from "../types/search-strategy";
 
 export async function searchBooks(args: {
   searchQuery: string;
+  searchStrategy: SearchStrategy;
 }): Promise<Book[]> {
-  // return await db
-  //   .select()
-  //   .from(table_Books)
-  //   .where(
-  //     sql`
-  //       ${table_Books.title} ILIKE '%${args.searchQuery}%';
-  //     `,
-  //   );
-
-  const result = await db.execute<Book>(
-    sql`
+  switch (args.searchStrategy) {
+    case SearchStrategies.ILike:
+      return db
+        .execute<Book>(
+          sql`
       SELECT
         * 
       FROM 
@@ -24,7 +20,9 @@ export async function searchBooks(args: {
       WHERE
         ${table_Books.title} ILIKE ${`%${args.searchQuery}%`};
     `,
-  );
-
-  return result.rows;
+        )
+        .then((res) => res.rows);
+    default:
+      throw new Error(`unimplemented search strategy: ${args.searchStrategy}`);
+  }
 }
