@@ -10,7 +10,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:reset": "./lib/drizzle/reset-db.sh",
-    "db:iter": "npm run db:reset && npm run db:generate && npm run db:migrate",
+    "tsx": "dotenv tsx",
+    "db:insert-mock-data": "npm run tsx ./lib/drizzle/insert-mock-data.ts",
+    "db:iter": "npm run db:reset && npm run db:generate && npm run db:migrate && npm run db:insert-mock-data",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -29,6 +31,8 @@
     "@types/pg": "^8.15.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.5.0",
+    "dotenv-cli": "^8.0.0",
     "drizzle-kit": "^0.31.1",
     "tailwindcss": "^4",
     "typescript": "^5"
