@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Ubuntu_Mono, Ubuntu } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = Ubuntu({
   variable: "--font-ubuntu",
@@ -26,10 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${font.variable} ${fontMono.variable} antialiased`}>
+      <body
+        className={`${font.variable} ${fontMono.variable} antialiased dark`}
+      >
         <main className="min-h-dvh min-w-dvw flex flex-col items-center justify-center">
           {children}
         </main>
+
+        <Toaster />
       </body>
     </html>
   );

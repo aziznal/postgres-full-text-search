@@ -1,9 +1,8 @@
 import { db } from "@/lib/drizzle/client";
 import { table_Books } from "./db-schema";
+import { NewBook } from "./types";
 
-type Book = typeof table_Books.$inferInsert;
-
-const books: Book[] = [
+const books: NewBook[] = [
   { title: "Atomic Habits" },
   { title: "Deep Work" },
   { title: "Clean Code" },

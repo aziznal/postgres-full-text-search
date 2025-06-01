@@ -17,6 +17,7 @@ The following helper commands are defined in package.json scripts:
 - `db:generate`: generates migration files
 - `db:migrate`: applies migrations from generated files
 - `db:reset`: resets database to clean slate with no tables or data
-- `db:iter`: resets database, generates migrations, then applies them. helpful during development
+- `db:insert-mock-data`
+- `db:iter`: resets database, generates migrations, then applies them and inserts mock data. helpful during development
 - `db:studio`: opens interactive UI in browser
 
