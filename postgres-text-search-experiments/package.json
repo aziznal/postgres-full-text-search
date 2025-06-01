@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio",
-    "db:reset": "./lib/drizzle/reset-db.sh"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:reset": "./lib/drizzle/reset-db.sh",
+    "db:iter": "npm run db:reset && npm run db:generate && npm run db:migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.6",
