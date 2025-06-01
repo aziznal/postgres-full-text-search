@@ -1,51 +1,54 @@
 import { db } from "@/lib/drizzle/client";
-import { table_Books } from "@/modules/books/db-schema";
-import { Book } from "@/modules/books/types";
-import { SearchStrategy, SearchStrategies } from "@/modules/search/types/search-strategy";
+import {
+  SearchStrategy,
+  SearchStrategies,
+} from "@/modules/search/types/search-strategy";
+import { table_Skills } from "@/modules/skills/db-schema";
+import { Skill } from "@/modules/skills/types";
 import { sql } from "drizzle-orm";
 
-export async function searchBooks(args: {
+export async function searchSkills(args: {
   searchQuery: string;
   searchStrategy: SearchStrategy;
-}): Promise<Book[]> {
+}): Promise<Skill[]> {
   switch (args.searchStrategy) {
     case SearchStrategies.ILike:
       return db
-        .execute<Book>(
+        .execute<Skill>(
           sql`
             SELECT
               * 
             FROM 
-              ${table_Books}
+              ${table_Skills}
             WHERE
-              ${table_Books.title} ILIKE ${`%${args.searchQuery}%`};
+              ${table_Skills.title} ILIKE ${`%${args.searchQuery}%`};
           `,
         )
         .then((res) => res.rows);
 
     case SearchStrategies.BasicFts:
-      const searchTsQuery = args.searchQuery
-         // .trim().split(" ").join("&");
+      const searchTsQuery = args.searchQuery;
+      // .trim().split(" ").join("&");
 
       const matchQuery = sql`
         (
-          setweight(to_tsvector('english', ${table_Books.title}), 'A') ||
-          setweight(array_to_tsvector(${table_Books.tags}), 'B')
+          setweight(to_tsvector('english', ${table_Skills.title}), 'A') ||
+          setweight(array_to_tsvector(${table_Skills.tags}), 'B')
         ),
         plainto_tsquery('english', ${searchTsQuery})
       `;
 
       return db
-        .execute<Book>(
+        .execute<Skill>(
           sql`
             SELECT
               * 
             FROM 
-              ${table_Books}
+              ${table_Skills}
             WHERE
               (
-                setweight(to_tsvector('english', ${table_Books.title}), 'A') ||
-                setweight(array_to_tsvector(${table_Books.tags}), 'B')
+                setweight(to_tsvector('english', ${table_Skills.title}), 'A') ||
+                setweight(array_to_tsvector(${table_Skills.tags}), 'B')
               ) @@ plainto_tsquery('english', ${searchTsQuery})
             ORDER BY
               ts_rank(${matchQuery}) DESC;

@@ -5,41 +5,41 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Book } from "../books/types";
 import { toast } from "sonner";
 import { SearchStrategies } from "../search/types/search-strategy";
+import { Skill } from "../skills/types";
 
-type BookSearchContextType = {
+type SkillSearchContextType = {
   searchInput: string;
   setSearchInput: (value: string) => void;
-  bookResults: Book[];
+  skillResults: Skill[];
 };
 
-const BookSearchContext = createContext<BookSearchContextType>(
-  {} as BookSearchContextType,
+const SkillSearchContext = createContext<SkillSearchContextType>(
+  {} as SkillSearchContextType,
 );
 
-export const useBookSearchContext = () => useContext(BookSearchContext);
+export const useSkillSearchContext = () => useContext(SkillSearchContext);
 
-export const BookSearchContextProvider = ({ children }: PropsWithChildren) => {
+export const SkillSearchContextProvider = ({ children }: PropsWithChildren) => {
   const [searchInput, setSearchInput] = useState("");
-  const [bookResults, setBooksResults] = useState<Book[]>([]);
+  const [skillResults, setSkillsResults] = useState<Skill[]>([]);
 
   useEffect(() => {
-    const updateBookResults = async () => {
+    const updateSkillResults = async () => {
       if (searchInput === "") {
-        setBooksResults([]);
+        setSkillsResults([]);
         return;
       }
 
       await fetch(
-        `/api/search-books?q=${searchInput}&searchStrategy=${SearchStrategies.BasicFts}`,
+        `/api/search-skills?q=${searchInput}&searchStrategy=${SearchStrategies.BasicFts}`,
       ).then(async (res) => {
         const response = await res.json();
 
         // success
         if ("results" in response) {
-          setBooksResults(response.results);
+          setSkillsResults(response.results);
           return;
         }
 
@@ -48,20 +48,20 @@ export const BookSearchContextProvider = ({ children }: PropsWithChildren) => {
       });
     };
 
-    const timeout = setTimeout(updateBookResults, 150);
+    const timeout = setTimeout(updateSkillResults, 150);
 
     return () => clearTimeout(timeout);
   }, [searchInput]);
 
   return (
-    <BookSearchContext.Provider
+    <SkillSearchContext.Provider
       value={{
         searchInput,
         setSearchInput,
-        bookResults,
+        skillResults,
       }}
     >
       {children}
-    </BookSearchContext.Provider>
+    </SkillSearchContext.Provider>
   );
 };

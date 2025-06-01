@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ubuntu_Mono, Ubuntu } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "@/components/providers";
 
 const font = Ubuntu({
   variable: "--font-ubuntu",
@@ -31,7 +32,7 @@ export default function RootLayout({
         className={`${font.variable} ${fontMono.variable} antialiased dark`}
       >
         <main className="min-h-dvh min-w-dvw flex flex-col items-center justify-center">
-          {children}
+          <Providers>{children}</Providers>
         </main>
 
         <Toaster />

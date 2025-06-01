@@ -1,5 +1,5 @@
 {
-  "id": "f035020a-c6ea-4092-884b-3c439d92b2f0",
+  "id": "25c09d99-d2a2-40f4-80a2-c6d1e10f5cfc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -29,8 +29,8 @@
         }
       },
       "indexes": {
-        "title_idx": {
-          "name": "title_idx",
+        "books_title_idx": {
+          "name": "books_title_idx",
           "columns": [
             {
               "expression": "to_tsvector('english', \"title\")",
@@ -44,8 +44,92 @@
           "method": "gin",
           "with": {}
         },
-        "tags_idx": {
-          "name": "tags_idx",
+        "books_tags_idx": {
+          "name": "books_tags_idx",
+          "columns": [
+            {
+              "expression": "array_to_tsvector(\"tags\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.skills": {
+      "name": "skills",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aliases": {
+          "name": "aliases",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "skills_title_idx": {
+          "name": "skills_title_idx",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"title\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "skills_aliases_idx": {
+          "name": "skills_aliases_idx",
+          "columns": [
+            {
+              "expression": "array_to_tsvector(\"aliases\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "skills_tags_idx": {
+          "name": "skills_tags_idx",
           "columns": [
             {
               "expression": "array_to_tsvector(\"tags\")",

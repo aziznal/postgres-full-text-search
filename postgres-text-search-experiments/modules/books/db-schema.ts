@@ -10,8 +10,8 @@ export const table_Books = pgTable(
   },
   (table) => [
     // prettier-ignore
-    index("title_idx").using("gin", sql`to_tsvector('english', ${table.title})`),
+    index("books_title_idx").using("gin", sql`to_tsvector('english', ${table.title})`),
     // prettier-ignore
-    index("tags_idx").using("gin", sql`array_to_tsvector(${table.tags})`),
+    index("books_tags_idx").using("gin", sql`array_to_tsvector(${table.tags})`),
   ],
 );

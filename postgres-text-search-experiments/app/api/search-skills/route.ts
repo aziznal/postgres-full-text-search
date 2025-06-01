@@ -3,7 +3,7 @@ import {
   TYPICAL_DB_DELAY,
   TYPICAL_SERVER_DELAY,
 } from "@/lib/fake-delay";
-import { searchBooks } from "@/modules/book-search/actions/search-books";
+import { searchSkills } from "@/modules/skill-search/actions/search-skills";
 import { searchQuerySchema } from "@/modules/search/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const results = await searchBooks({
+  const results = await searchSkills({
     searchQuery: parsedParams.data.q,
     searchStrategy: parsedParams.data.searchStrategy,
   });
