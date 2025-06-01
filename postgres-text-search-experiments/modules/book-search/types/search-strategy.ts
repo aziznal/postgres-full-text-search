@@ -1,5 +1,6 @@
 export const SearchStrategies = {
   ILike: "ilike",
+  BasicFts: "basicfts",
 } as const;
 
 export type SearchStrategy =

@@ -33,7 +33,7 @@ export const BookSearchContextProvider = ({ children }: PropsWithChildren) => {
       }
 
       await fetch(
-        `/api/search-books?q=${searchInput}&searchStrategy=${SearchStrategies.ILike}`,
+        `/api/search-books?q=${searchInput}&searchStrategy=${SearchStrategies.BasicFts}`,
       ).then(async (res) => {
         const response = await res.json();
 
